@@ -20,14 +20,11 @@ public class MainActivity extends AppCompatActivity {
     //1. Если открываем многостраничник должна открыться форма From
     //2. Если открываем папку с картинками должна открыться форма To
     DB dbh;
-    SQLiteDatabase db;
-    private Toolbar tb;
+//    SQLiteDatabase db = dbh.getWritableDatabase();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         dbh = new DB(this);
-        db = dbh.getWritableDatabase();
-
-        Cursor cursor = Settings.getSettings();
+        Cursor cursor = dbh.getSettings();
         try{
             switch (cursor.getString(cursor.getColumnIndex("view_theme")).toCharArray()[0]) {
                 case '1' :
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             theme=1;
         }
 //        db.execSQL("INSERT INTO settings ( view_theme ) VALUES ('" + theme + "')" );
-        db.execSQL("UPDATE settings SET view_theme='" + theme + "' WHERE _id=1");
+//        db.execSQL("UPDATE settings SET view_theme='" + theme + "' WHERE _id=1");
 //        intent.putExtra("theme",theme);
         recreate();
     }

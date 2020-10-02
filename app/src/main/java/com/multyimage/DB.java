@@ -1,6 +1,7 @@
 package com.multyimage;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -22,7 +23,6 @@ public class DB extends SQLiteOpenHelper {
         //Таблица настроек
         current_db=db;
 
-
         db.execSQL("CREATE TABLE SETTINGS (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "method TEXT, " +
@@ -38,7 +38,6 @@ public class DB extends SQLiteOpenHelper {
 
         //Таблица для транзитных значений файлов
 
-
         db.execSQL("CREATE TABLE tranzit (" +
                 "sort INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "icon TEXT, " +
@@ -47,7 +46,6 @@ public class DB extends SQLiteOpenHelper {
                 "all_size REAL) ");
 
         //Триггер для подсчёта суммы занятого пространства файлов
-
 
         db.execSQL("CREATE TRIGGER all_size_trigger AFTER INSERT ON tranzit " +
                 "BEGIN " +
@@ -63,5 +61,10 @@ public class DB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public static Cursor getSettings() {
+        Cursor setting = current_db.rawQuery("SELECT * FROM settings WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 THEN 2 ELSE 1 END)",null);
+        setting.moveToFirst();
+        return setting;
+    }
 
 }

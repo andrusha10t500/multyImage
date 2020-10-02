@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name" formatted="true"></string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="AppThemeDark">Тема: Темная</string>
+    <string name="AppThemeLight">Тема: Светлая</string>
+<!--    settings layout-->
+    <string name="format">Формат преобразования</string>
+    <string name="quality">Качество, %</string>
+    <string name="size">Формат изображения</string>
+    <string name="scale">Масштаб</string>
+    <string name="sort">Сортировка</string>
+    <string name="compression">сжатие</string>
+</resources>

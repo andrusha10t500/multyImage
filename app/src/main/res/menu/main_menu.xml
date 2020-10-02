@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/view_settings"
+        android:title="Настройки"
+        android:orderInCategory="1"
+        app:showAsAction="never"
+        android:onClick="SettingsClick">
+    </item>
+    <item
+        android:id="@+id/about"
+        android:title="О программе"
+        android:orderInCategory="3"
+        app:showAsAction="never"
+        android:onClick="AboutClick">
+    </item>
+    <item
+        android:id="@+id/theme"
+        android:orderInCategory="2"
+        app:showAsAction="never"
+        android:onClick="ThemeClick"
+        tools:ignore="MenuTitle">
+    </item>
+</menu>

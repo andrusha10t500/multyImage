@@ -1,0 +1,29 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/light_theme_text_black</item>
+        <item name="fontFamily">@font/consolas</item>
+        <item name="android:checked">true</item>
+        <item name="android:title">@string/AppThemeDark</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/colorPrimaryDarkDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDark</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
+        <item name="android:textColor">@color/dark_theme_text_gray</item>
+        <item name="fontFamily">@font/consolas</item>
+        <item name="android:checked">false</item>
+        <item name="android:title">@string/AppThemeLight</item>
+    </style>
+
+<!--    ToolBar-->
+    <style name="Toolbar" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+</resources>

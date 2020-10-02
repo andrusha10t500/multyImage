@@ -24,14 +24,11 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar tb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        int theme;
         dbh = new DB(this);
         db = dbh.getWritableDatabase();
 
-//        Cursor cursor = db.rawQuery("SELECT view_theme FROM settings WHERE _id=1", null);
         Cursor cursor = Settings.getSettings();
         try{
-//            cursor.moveToFirst();
             switch (cursor.getString(cursor.getColumnIndex("view_theme")).toCharArray()[0]) {
                 case '1' :
                     setTheme(R.style.AppThemeLight);

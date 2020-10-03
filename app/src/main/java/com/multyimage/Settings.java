@@ -34,14 +34,10 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.settings);
         dbh = new DB(this);
 
-//        format = (TextView)findViewById(R.id.format);
-//        quality = (TextView)findViewById(R.id.quality);
-//        spinnerformat = (Spinner)findViewById(R.id.spinnerformat);
+
+        spinnerformat = (Spinner)findViewById(R.id.spinnerformat);
         txtquality = (EditText)findViewById(R.id.txtquality);
         //Заполнение полей
-//        format.setText(dbh.getFormat());
-//        quality.setText(dbh.getQuality());
-//        spinnerformat.
         txtquality.setText(dbh.getScale());
 
     }

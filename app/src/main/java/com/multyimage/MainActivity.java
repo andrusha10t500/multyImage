@@ -64,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
     public void ThemeClick(MenuItem item) {
         int theme;
         if(item.isChecked()) {
-            theme=0;
+            theme=0;    //Светлая тема
         } else {
-            theme=1;
+            theme=1;    //Темная тема
         }
         dbh.newTheme(theme);
         recreate();

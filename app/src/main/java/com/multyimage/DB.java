@@ -23,15 +23,15 @@ public class DB extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE SETTINGS (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "method TEXT, " +
-                "dest TEXT, " +
-                "format text, " +
-                "quality INTEGER," +
-                "resolution TEXT, " +
-                "compression TEXT, " +
-                "view_scale INTEGER," +
-                "view_sort TEXT, " +
-                "view_theme TEXT, " +
+                "method TEXT DEFAULT 'from', " +
+                "dest TEXT DEFAULT '//storage/sdcard1/Download/', " +
+                "format text DEFAULT 'A4', " +
+                "quality INTEGER DEFAULT 100," +
+                "resolution TEXT DEFAULT '640x480', " +
+                "compression TEXT DEFAULT 'LZV', " +
+                "view_scale INTEGER DEFAULT 100," +
+                "view_sort TEXT DEFAULT '_id', " +
+                "view_theme TEXT DEFAULT '0', " +
                 "view TEXT DEFAULT 1) ");
 
         //Таблица для транзитных значений файлов
@@ -50,6 +50,10 @@ public class DB extends SQLiteOpenHelper {
                 "UPDATE tranzit SET all_size=0; " +
                 "UPDATE tranzit SET all_size=(SELECT sum(size) FROM tranzit) WHERE sort=(SELECT count(*) FROM tranzit); " +
                 "END;");
+
+        db.execSQL("INSERT INTO settings " +
+                "(method, dest, format, quality, resolution, compression, view_scale, view_sort, view_theme) VALUES " +
+                "('from', '//storage/sdcard1/Download/', 'A4', 100, '640x480', 'LZV', 100, '_id', '0')");
     }
 
     @Override
@@ -59,13 +63,43 @@ public class DB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    private void defaultSettings() {
+        this.getWritableDatabase().execSQL("INSERT INTO settings " +
+                "(method, dest, format, quality, resolution, compression, view_scale, view_sort, view_theme) VALUES " +
+                "('from', '//storage/sdcard1/Download/', 'A4', 100, '640x480', 'LZV', 100, '_id', '0')");
+    }
+
     public Cursor getSettings() {
         Cursor setting = this.getWritableDatabase().rawQuery("SELECT * FROM settings WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 THEN 2 ELSE 1 END)",null);
         setting.moveToFirst();
         return setting;
     }
+
     public void newTheme(int theme) {
         this.getWritableDatabase().execSQL("UPDATE settings SET view_theme='"+theme+"' WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 then 2 else 1 end)");
     }
 
+    public String whichSettings() {
+        Cursor which = this.getWritableDatabase().rawQuery("SELECT CASE WHEN (SELECT count(*) FROM settings)>1 THEN 'USER_SETTING' ELSE 'DEFAULT_SETTING' END", null);
+        which.moveToFirst();
+        String whichSetting=which.getString(0);
+
+        return whichSetting;
+    }
+
+    public String getFormat(){
+        Cursor c = this.getWritableDatabase().rawQuery("SELECT format FROM settings WHERE _id=" + this.getSettings().getCount(), null);
+        c.moveToFirst();
+        return c.getString(0);
+    }
+    public String getQuality() {
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT quality FROM settings WHERE _id=" + this.getSettings().getCount(), null);
+        c.moveToFirst();
+        return c.getString(0);
+    }
+    public String getScale() {
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT view_scale FROM settings WHERE _id=" + this.getSettings().getCount(),null);
+        c.moveToFirst();
+        return c.getString(0);
+    }
 }

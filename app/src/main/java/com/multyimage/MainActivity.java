@@ -54,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void SettingsClick(MenuItem item) {
-        Toast.makeText(getApplicationContext(),"Вы выбрали меню: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),"Вы выбрали меню: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
     }
 
     public void AboutClick(MenuItem item) {

@@ -41,26 +41,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-//        try {
-//            theme=getIntent().getExtras().getInt("theme");
-//        } catch (NullPointerException e) {
-//            theme=2;
-//        }
-//        if(theme<2) {
-//            if(theme==1) {
-//                setTheme(R.style.AppThemeLight);
-//            } else {
-//                setTheme(R.style.AppThemeDark);
-//            }
-//        } else {
-//            setTheme(R.style.AppThemeLight);
-//        }
-
-
-
         super.onCreate(savedInstanceState);
-//        tb = findViewById(R.id.toolbar);
-//        setSupportActionBar(tb);
 
         setContentView(R.layout.activity_main);
     }
@@ -81,18 +62,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ThemeClick(MenuItem item) {
-//        Intent intent = getIntent();
         int theme;
         if(item.isChecked()) {
-//            item.setTitle("Тема: Светлая");
             theme=0;
         } else {
-//            item.setTitle("Тема: Темная");
             theme=1;
         }
-//        db.execSQL("INSERT INTO settings ( view_theme ) VALUES ('" + theme + "')" );
-//        db.execSQL("UPDATE settings SET view_theme='" + theme + "' WHERE _id=1");
-//        intent.putExtra("theme",theme);
+        dbh.newTheme(theme);
         recreate();
     }
 }

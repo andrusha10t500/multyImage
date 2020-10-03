@@ -14,14 +14,12 @@ public class DB extends SQLiteOpenHelper {
     private static SQLiteDatabase current_db;
     public DB(Context context) {
         super(context, DB_Name, null, DB_Version);
+
     }
-
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Таблица настроек
-        current_db=db;
 
         db.execSQL("CREATE TABLE SETTINGS (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -61,10 +59,13 @@ public class DB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public static Cursor getSettings() {
-        Cursor setting = current_db.rawQuery("SELECT * FROM settings WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 THEN 2 ELSE 1 END)",null);
+    public Cursor getSettings() {
+        Cursor setting = this.getWritableDatabase().rawQuery("SELECT * FROM settings WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 THEN 2 ELSE 1 END)",null);
         setting.moveToFirst();
         return setting;
+    }
+    public void newTheme(int theme) {
+        this.getWritableDatabase().execSQL("UPDATE settings SET view_theme='"+theme+"' WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 then 2 else 1 end)");
     }
 
 }

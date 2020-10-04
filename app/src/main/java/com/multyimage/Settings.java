@@ -2,6 +2,7 @@ package com.multyimage;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -29,14 +30,29 @@ public class Settings extends AppCompatActivity {
     EditText txtquality;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setTheme(R.style.AppThemeLight);
+        dbh = new DB(this);
+        Cursor cursor = dbh.getSettings();
+        try{
+            switch (cursor.getString(cursor.getColumnIndex("view_theme")).toCharArray()[0]) {
+                case '1' :
+                    setTheme(R.style.AppThemeLight);
+                    break;
+                case '0' :
+                    setTheme(R.style.AppThemeDark);
+                    break;
+                default:
+                    setTheme(R.style.AppThemeLight);
+            }
+        } catch (CursorIndexOutOfBoundsException e) {
+            setTheme(R.style.AppThemeLight);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-        dbh = new DB(this);
-
 
         spinnerformat = (Spinner)findViewById(R.id.spinnerformat);
         txtquality = (EditText)findViewById(R.id.txtquality);
+
         //Заполнение полей
         txtquality.setText(dbh.getScale());
 

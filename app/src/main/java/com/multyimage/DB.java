@@ -102,4 +102,19 @@ public class DB extends SQLiteOpenHelper {
         c.moveToFirst();
         return c.getString(0);
     }
+    public String getSize() {
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT resolution FROM settings WHERE _id=" + this.getSettings().getCount(),null);
+        c.moveToFirst();
+        return c.getString(0);
+    }
+    public String getSort() {
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT view_sort FROM settings WHERE _id=" + this.getSettings().getCount(),null);
+        c.moveToFirst();
+        return c.getString(0);
+    }
+    public String getCompressiont() {
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT compression FROM settings WHERE _id=" + this.getSettings().getCount(),null);
+        c.moveToFirst();
+        return c.getString(0);
+    }
 }

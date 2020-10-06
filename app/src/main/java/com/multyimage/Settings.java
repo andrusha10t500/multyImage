@@ -26,8 +26,8 @@ public class Settings extends AppCompatActivity {
     //Класс для отработки Настроек приложения
     DB dbh;
     TextView format,quality;
-    Spinner spinnerformat;
-    EditText txtquality;
+    Spinner spinnerformat, spinnertheme, spinnersort, spinnercompression;
+    EditText txtquality, size, scale, sort;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         dbh = new DB(this);
@@ -52,10 +52,18 @@ public class Settings extends AppCompatActivity {
 
         spinnerformat = (Spinner)findViewById(R.id.spinnerformat);
         txtquality = (EditText)findViewById(R.id.txtquality);
-
+        size = (EditText)findViewById(R.id.size);
+        scale = (EditText)findViewById(R.id.scale);
+        spinnersort = (Spinner)findViewById(R.id.spinnersort);
+        spinnertheme = (Spinner)findViewById(R.id.spinnertheme);
+        spinnercompression = (Spinner)findViewById(R.id.spinnercompression);
         //Заполнение полей
-        txtquality.setText(dbh.getScale());
-
+        txtquality.setText(dbh.getQuality());
+        size.setText(dbh.getSize());
+        scale.setText(dbh.getScale());
     }
 
+    public void acceptSettings(View view) {
+
+    }
 }

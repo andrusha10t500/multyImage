@@ -8,12 +8,13 @@
     android:theme="@style/AppThemeLight">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/format"
@@ -32,6 +33,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/quality"
@@ -42,19 +44,137 @@
                 </TextView>
                 <EditText
                     android:id="@+id/txtquality"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAlignment="center"
                     android:inputType="number"
-                    android:digits="0123456789">
+                    android:digits="0123456789"
+                    android:layout_gravity="center_horizontal">
                 </EditText>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/size"
+                    android:layout_weight="0">
+
+                </TextView>
+                <EditText
+                    android:id="@+id/size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+                </EditText>
 
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/tabl_view"
+                android:gravity="center_horizontal">
+            </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/scale">
+
+            </TextView>
+            <EditText
+                android:id="@+id/scale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sort">
+            </TextView>
+            <Spinner
+                android:id="@+id/spinnersort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/sortarr"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/theme"
+                android:layout_weight="1">
+            </TextView>
+            <Spinner
+                android:id="@+id/spinnertheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/themearr"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/compression"
+                android:layout_weight="1">
+            </TextView>
+            <Spinner
+                android:id="@+id/spinnercompression"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/compressionarr"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dest">
+            </TextView>
+        </LinearLayout>
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Применить настройки"
+            android:onClick="acceptSettings">
+        </Button>
 
     </LinearLayout>
 

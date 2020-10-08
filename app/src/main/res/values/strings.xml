@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" formatted="true"></string>
+    <string name="app_name" formatted="true">MultyImage</string>
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="AppThemeDark">Тема: Темная</string>
@@ -12,8 +12,8 @@
     <string name="scale">Масштаб</string>
     <string name="sort">Сортировка</string>
     <string-array name="sortarr">
-        <item>ID</item>
-        <item>Имя</item>
+        <item>_id</item>
+        <item>имя</item>
         <item>размер</item>
         <item>сортировка</item>
     </string-array>
@@ -32,5 +32,6 @@
         <item>PDF</item>
     </string-array>
     <string name="tabl_view">Настройка табличного вида</string>
+    <string name="settingsDefault">Сбросить настройки</string>
 
 </resources>

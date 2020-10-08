@@ -25,7 +25,7 @@ public class DB extends SQLiteOpenHelper {
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "method TEXT DEFAULT 'from', " +
                 "dest TEXT DEFAULT '//storage/sdcard1/Download/', " +
-                "format text DEFAULT 'A4', " +
+                "format text DEFAULT 'PDF', " +
                 "quality INTEGER DEFAULT 100," +
                 "resolution TEXT DEFAULT '640x480', " +
                 "compression TEXT DEFAULT 'LZV', " +
@@ -53,7 +53,7 @@ public class DB extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO settings " +
                 "(method, dest, format, quality, resolution, compression, view_scale, view_sort, view_theme) VALUES " +
-                "('from', '//storage/sdcard1/Download/', 'A4', 100, '640x480', 'LZV', 100, '_id', '0')");
+                "('from', '//storage/sdcard1/Download/', 'PDF', 100, '640x480', 'LZV', 100, '_id', 'Светлая')");
     }
 
     @Override
@@ -63,57 +63,51 @@ public class DB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    private void defaultSettings() {
-        this.getWritableDatabase().execSQL("INSERT INTO settings " +
-                "(method, dest, format, quality, resolution, compression, view_scale, view_sort, view_theme) VALUES " +
-                "('from', '//storage/sdcard1/Download/', 'A4', 100, '640x480', 'LZV', 100, '_id', '0')");
-    }
 
     public Cursor getSettings() {
-        Cursor setting = this.getWritableDatabase().rawQuery("SELECT * FROM settings WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 THEN 2 ELSE 1 END)",null);
+        Cursor setting = this.getWritableDatabase().rawQuery("SELECT * FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)",null);
         setting.moveToFirst();
         return setting;
     }
 
+
+
     public void newTheme(String theme) {
-        this.getWritableDatabase().execSQL("UPDATE settings SET view_theme='"+theme+"' WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 then 2 else 1 end)");
+        this.getWritableDatabase().execSQL("UPDATE settings SET view_theme='"+theme+"' WHERE _id=(SELECT MAX(_id) FROM settings)");
     }
-
-    public String whichSettings() {
-        Cursor which = this.getWritableDatabase().rawQuery("SELECT CASE WHEN (SELECT count(*) FROM settings)>1 THEN 'USER_SETTING' ELSE 'DEFAULT_SETTING' END", null);
-        which.moveToFirst();
-        String whichSetting=which.getString(0);
-
-        return whichSetting;
+    public String getTheme(){
+        Cursor c = this.getWritableDatabase().rawQuery("SELECT view_theme FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)", null);
+        c.moveToFirst();
+        return c.getString(0);
     }
 
     public String getFormat(){
-        Cursor c = this.getWritableDatabase().rawQuery("SELECT format FROM settings WHERE _id=" + this.getSettings().getCount(), null);
+        Cursor c = this.getWritableDatabase().rawQuery("SELECT format FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)", null);
         c.moveToFirst();
         return c.getString(0);
     }
     public String getQuality() {
-        Cursor c= this.getWritableDatabase().rawQuery("SELECT quality FROM settings WHERE _id=" + this.getSettings().getCount(), null);
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT quality FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)" , null);
         c.moveToFirst();
         return c.getString(0);
     }
     public String getScale() {
-        Cursor c= this.getWritableDatabase().rawQuery("SELECT view_scale FROM settings WHERE _id=" + this.getSettings().getCount(),null);
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT view_scale FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)",null);
         c.moveToFirst();
         return c.getString(0);
     }
     public String getSize() {
-        Cursor c= this.getWritableDatabase().rawQuery("SELECT resolution FROM settings WHERE _id=" + this.getSettings().getCount(),null);
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT resolution FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)" ,null);
         c.moveToFirst();
         return c.getString(0);
     }
     public String getSort() {
-        Cursor c= this.getWritableDatabase().rawQuery("SELECT view_sort FROM settings WHERE _id=" + this.getSettings().getCount(),null);
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT view_sort FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)" ,null);
         c.moveToFirst();
         return c.getString(0);
     }
-    public String getCompressiont() {
-        Cursor c= this.getWritableDatabase().rawQuery("SELECT compression FROM settings WHERE _id=" + this.getSettings().getCount(),null);
+    public String getCompression() {
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT compression FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)" ,null);
         c.moveToFirst();
         return c.getString(0);
     }

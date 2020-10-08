@@ -31,7 +31,7 @@ public class DB extends SQLiteOpenHelper {
                 "compression TEXT DEFAULT 'LZV', " +
                 "view_scale INTEGER DEFAULT 100," +
                 "view_sort TEXT DEFAULT '_id', " +
-                "view_theme TEXT DEFAULT '0', " +
+                "view_theme TEXT DEFAULT 'Светлая', " +
                 "view TEXT DEFAULT 1) ");
 
         //Таблица для транзитных значений файлов
@@ -75,7 +75,7 @@ public class DB extends SQLiteOpenHelper {
         return setting;
     }
 
-    public void newTheme(int theme) {
+    public void newTheme(String theme) {
         this.getWritableDatabase().execSQL("UPDATE settings SET view_theme='"+theme+"' WHERE _id=(CASE WHEN (SELECT count(*) FROM settings)>1 then 2 else 1 end)");
     }
 

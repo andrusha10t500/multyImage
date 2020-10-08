@@ -20,17 +20,16 @@ public class MainActivity extends AppCompatActivity {
     //1. Если открываем многостраничник должна открыться форма From
     //2. Если открываем папку с картинками должна открыться форма To
     DB dbh;
-//    SQLiteDatabase db = dbh.getWritableDatabase();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         dbh = new DB(this);
         Cursor cursor = dbh.getSettings();
         try{
-            switch (cursor.getString(cursor.getColumnIndex("view_theme")).toCharArray()[0]) {
-                case '1' :
+            switch (cursor.getString(cursor.getColumnIndex("view_theme"))) {
+                case "Светлая" :
                     setTheme(R.style.AppThemeLight);
                     break;
-                case '0' :
+                case "Темная" :
                     setTheme(R.style.AppThemeDark);
                     break;
                 default:
@@ -40,9 +39,7 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppThemeLight);
         }
 
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
     }
 
@@ -64,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ThemeClick(MenuItem item) {
-        int theme;
+        String theme;
         if(item.isChecked()) {
-            theme=0;    //Светлая тема
+            theme="Темная";    //Светлая тема
         } else {
-            theme=1;    //Темная тема
+            theme="Светлая";    //Темная тема
         }
         dbh.newTheme(theme);
         recreate();

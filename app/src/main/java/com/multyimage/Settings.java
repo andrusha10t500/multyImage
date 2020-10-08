@@ -33,11 +33,11 @@ public class Settings extends AppCompatActivity {
         dbh = new DB(this);
         Cursor cursor = dbh.getSettings();
         try{
-            switch (cursor.getString(cursor.getColumnIndex("view_theme")).toCharArray()[0]) {
-                case '1' :
+            switch (cursor.getString(cursor.getColumnIndex("view_theme"))) {
+                case "Светлая" :
                     setTheme(R.style.AppThemeLight);
                     break;
-                case '0' :
+                case "Темная" :
                     setTheme(R.style.AppThemeDark);
                     break;
                 default:
@@ -64,6 +64,17 @@ public class Settings extends AppCompatActivity {
     }
 
     public void acceptSettings(View view) {
+        dbh.getWritableDatabase().execSQL("UPDATE settings SET " +
+                "quality=" + txtquality.getText() + ", " +
+                "view_sort='" + spinnersort.getSelectedItem().toString() + "', " +
+                "view_theme='" + spinnertheme.getSelectedItem().toString() + "', " +
+                "compression='" + spinnercompression.getSelectedItem().toString() + "', " +
+                "view_scale=" + scale.getText() + ", " +
+                "resolution='" + size.getText() + "' " +
+                "where _id=(CASE WHEN (SELECT count(*) FROM settings)>1 THEN 2 ELSE 1 END)" );
+
+        Log.w("LOGZHORA:", dbh.getSettings().getString(0));
+        recreate();
 
     }
 }

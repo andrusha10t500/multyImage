@@ -1,6 +1,4 @@
 package com.multyimage;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,16 +7,17 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-    //Основное активити:
-    //1. Если открываем многостраничник должна открыться форма From
-    //2. Если открываем папку с картинками должна открыться форма To
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+public class SecondActivity extends AppCompatActivity {
+
     DB dbh;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate( Bundle savedInstanceState) {
+
         dbh = new DB(this);
         Cursor cursor = dbh.getSettings();
         try{
@@ -37,19 +36,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-//        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
-    }
-
-    public void from(View view) {
-        Intent intent = new Intent(this,SecondActivity.class);
-        startActivity(intent);
-    }
-
-    public void to(View view) {
-        Intent intent = new Intent(this,SecondActivity.class);
-        startActivity(intent);
+        setContentView(R.layout.second_activity);
+//        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

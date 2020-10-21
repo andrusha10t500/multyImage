@@ -19,8 +19,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".SecondActivity"
+            android:noHistory="false">
+        </activity>
+        <activity
             android:name=".Settings"
             android:noHistory="false">
+        </activity>
+        <activity
+            android:name=".SelectDirectory"
+            android:noHistory="true">
         </activity>
 
     </application>

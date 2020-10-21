@@ -9,6 +9,12 @@
         <item name="fontFamily">@font/consolas</item>
         <item name="android:checked">true</item>
         <item name="android:title">@string/AppThemeDark</item>
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowActionBarOverlay">true</item>-->
+<!--        <item name="android:windowIsFloating">true</item>-->
+<!--        <item name="windowActionModeOverlay">true</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
+
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.DayNight">
@@ -19,11 +25,16 @@
         <item name="fontFamily">@font/consolas</item>
         <item name="android:checked">false</item>
         <item name="android:title">@string/AppThemeLight</item>
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowActionBarOverlay">true</item>-->
+<!--        <item name="android:windowIsFloating">true</item>-->
+<!--        <item name="windowActionModeOverlay">true</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
     </style>
 
 <!--    ToolBar-->
-    <style name="Toolbar" >
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
+<!--    <style name="Toolbar" >-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:background">@color/colorPrimary</item>-->
+<!--    </style>-->
 </resources>

@@ -1,5 +1,6 @@
 package com.multyimage;
 
+import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,7 +25,7 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE SETTINGS (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "method TEXT DEFAULT 'from', " +
-                "dest TEXT DEFAULT '//storage/sdcard1/Download/', " +
+                "dest TEXT DEFAULT '/storage/', " +
                 "format text DEFAULT 'PDF', " +
                 "quality INTEGER DEFAULT 100," +
                 "resolution TEXT DEFAULT '640x480', " +
@@ -53,7 +54,7 @@ public class DB extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO settings " +
                 "(method, dest, format, quality, resolution, compression, view_scale, view_sort, view_theme) VALUES " +
-                "('from', '//storage/sdcard1/Download/', 'PDF', 100, '640x480', 'LZV', 100, '_id', 'Светлая')");
+                "('from', '/storage/', 'PDF', 100, '640x480', 'LZV', 100, '_id', 'Светлая')");
     }
 
     @Override
@@ -62,19 +63,17 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS settings; DROP TABLE IF EXIST tranzit;");
         onCreate(db);
     }
-
-
+    //получение настроек
     public Cursor getSettings() {
         Cursor setting = this.getWritableDatabase().rawQuery("SELECT * FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)",null);
         setting.moveToFirst();
         return setting;
     }
-
-
-
+    //новая тема
     public void newTheme(String theme) {
         this.getWritableDatabase().execSQL("UPDATE settings SET view_theme='"+theme+"' WHERE _id=(SELECT MAX(_id) FROM settings)");
     }
+    //----------------------для настроек----------------------
     public String getTheme(){
         Cursor c = this.getWritableDatabase().rawQuery("SELECT view_theme FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)", null);
         c.moveToFirst();
@@ -111,4 +110,14 @@ public class DB extends SQLiteOpenHelper {
         c.moveToFirst();
         return c.getString(0);
     }
+    public String getPathDest() {
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT dest FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)" ,null);
+        c.moveToFirst();
+        return c.getString(0);
+    }
+    //----------------------конец----------------------
+
+    //----------------------для фрагментов----------------------
+
+    //----------------------конец----------------------
 }

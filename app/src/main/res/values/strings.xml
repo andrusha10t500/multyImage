@@ -33,5 +33,6 @@
     </string-array>
     <string name="tabl_view">Настройка табличного вида</string>
     <string name="settingsDefault">Сбросить настройки</string>
+    <string name="path">выберите путь</string>
 
 </resources>

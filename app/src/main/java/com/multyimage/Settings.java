@@ -126,4 +126,9 @@ public class Settings extends AppCompatActivity {
 
         recreate();
     }
+
+    public void getPathDest(View view) {
+        Intent intent = new Intent(this,SelectDirectory.class);
+        startActivity(intent);
+    }
 }

@@ -115,6 +115,18 @@ public class DB extends SQLiteOpenHelper {
         c.moveToFirst();
         return c.getString(0);
     }
+    public void setPathDest(String path) {
+        this.getWritableDatabase().execSQL("UPDATE settings SET dest='" + path + "' WHERE _id=(SELECT MAX(_id) FROM settings)");
+    }
+    public String getMethod() {
+        Cursor c= this.getWritableDatabase().rawQuery("SELECT method FROM settings WHERE _id=(SELECT MAX(_id) FROM settings)" ,null);
+        c.moveToFirst();
+        return c.getString(0);
+    }
+    //Обновление метода
+    public void setMethod(String method) {
+        this.getWritableDatabase().execSQL("UPDATE settings SET method='" + method + "' WHERE _id=(SELECT MAX(_id) FROM settings)");
+    }
     //----------------------конец----------------------
 
     //----------------------для фрагментов----------------------

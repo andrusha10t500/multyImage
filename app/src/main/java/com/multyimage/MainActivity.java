@@ -1,16 +1,14 @@
 package com.multyimage;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     //Основное активити:
@@ -38,16 +36,16 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
     }
 
     public void from(View view) {
+        dbh.setMethod("from");
         Intent intent = new Intent(this,SecondActivity.class);
         startActivity(intent);
     }
 
     public void to(View view) {
+        dbh.setMethod("to");
         Intent intent = new Intent(this,SecondActivity.class);
         startActivity(intent);
     }
@@ -59,13 +57,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void SettingsClick(MenuItem item) {
-//        Toast.makeText(getApplicationContext(),"Вы выбрали меню: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
 
     public void AboutClick(MenuItem item) {
-        Toast.makeText(getApplicationContext(),"Вы выбрали меню: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent =new Intent(this, About.class);
+        startActivity(intent);
+//        Toast.makeText(getApplicationContext(),"Вы выбрали меню: " + item.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     public void ThemeClick(MenuItem item) {

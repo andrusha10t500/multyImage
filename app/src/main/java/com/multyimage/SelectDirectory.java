@@ -66,10 +66,12 @@ public class SelectDirectory extends AppCompatActivity {
             ArrayList<String> strOut = new ArrayList<>();
 
             for (int j=0; j<=strPath.length-1; j++) {
+                //нужна дополнительная проверка на то, какой сейчас выбран режим to/from
+                //если to, то нужно выбрать папку с файлами
+                //если from, то нужно выбрать файл
                 if(checkValidFiles(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j])) {
                     strOut.add(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j]);
                 }
-//                strPath[j]=adapterView.getItemAtPosition(i).toString() + "/" + strPath[j];
             }
 
             listAdapter = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, strOut);
@@ -95,7 +97,7 @@ public class SelectDirectory extends AppCompatActivity {
                 if (path.substring(path.length() - 3, path.length()).equals("png") ||
                         path.substring(path.length() - 3, path.length()).equals("jpg") ||
                         path.substring(path.length() - 3, path.length()).equals("jpeg") ||
-                        path.substring(path.length() - 3, path.length()).equals("tiff") ||
+                        path.substring(path.length() - 3, path.length()).equals("tif") ||
                         path.substring(path.length() - 3, path.length()).equals("pdf")) {
                     //условия to (в файл) или from (из файла)
                     //Если предыдущая папка является path, то нужно прописать в бд новый путь назначения и выйти в Settings для From

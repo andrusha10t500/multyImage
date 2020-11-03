@@ -30,6 +30,9 @@
             android:name=".SelectDirectory"
             android:noHistory="true">
         </activity>
+        <activity android:name=".About">
+
+        </activity>
 
     </application>
 

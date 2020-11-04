@@ -1,7 +1,9 @@
 package com.multyimage;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.DataSetObserver;
@@ -17,11 +19,15 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.List;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
@@ -34,6 +40,7 @@ public class Settings extends AppCompatActivity {
     Spinner spinnerformat, spinnertheme, spinnersort, spinnercompression;
     EditText txtquality, size, scale;
     Button settingsDefault;
+    int REQUEST_CODE_PERMISSION;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         dbh = new DB(this);
@@ -113,8 +120,6 @@ public class Settings extends AppCompatActivity {
                     "where _id=(SELECT MAX(_id) FROM settings)" );
         }
 
-
-
         recreate();
 
     }
@@ -128,7 +133,31 @@ public class Settings extends AppCompatActivity {
     }
 
     public void getPathDest(View view) {
-        Intent intent = new Intent(this,SelectDirectory.class);
-        startActivity(intent);
+        int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        //Если есть разрешение на sd-карту, то переходим в выбор директории
+        if(permissionStatus == PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(this,SelectDirectory.class);
+            startActivity(intent);
+        }
+        //Если нет разрешения, то делаем запрос на получение прав доступа к SD-карте
+        else {
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+        }
+    }
+
+    //Получаем разрешение на SD-карту
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==0) {
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(this,SelectDirectory.class);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(),"Права были предоставлены",Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(),"Права не были предоставлены",Toast.LENGTH_SHORT).show();
+        }
     }
 }

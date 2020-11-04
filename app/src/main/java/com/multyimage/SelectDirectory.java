@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -67,10 +68,17 @@ public class SelectDirectory extends AppCompatActivity {
 
             for (int j=0; j<=strPath.length-1; j++) {
                 //нужна дополнительная проверка на то, какой сейчас выбран режим to/from
-                //если to, то нужно выбрать папку с файлами
-                //если from, то нужно выбрать файл
-                if(checkValidFiles(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j])) {
-                    strOut.add(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j]);
+                if(dbh.getMethod().equals("from")) {
+                    //если from, то нужно выбрать файл
+                    //и дать ему имя, а расширение храниться в базе данных в поле format
+                    if (checkValidFilesForFrom(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j])) {
+                        strOut.add(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j]);
+                    }
+                } else {
+                    //если to, то нужно выбрать папку с файлами
+                    if(checkValidFilesForTo(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j])) {
+                        strOut.add(adapterView.getItemAtPosition(i).toString()+ "/" + strPath[j]);
+                    }
                 }
             }
 
@@ -80,13 +88,13 @@ public class SelectDirectory extends AppCompatActivity {
             }
         });
     }
-    //проверка есть ли нужные файлы в директории
-    private boolean checkValidFiles(String path) {
+    //проверка есть ли нужные файлы в директории для метода from
+    private boolean checkValidFilesForFrom(String path) {
         boolean ret=false;
         if(new File(path).isDirectory()) {
             String[] pathArr = new File(path).list();
             for(int i=0; i<=pathArr.length-1; i++){
-                if(checkValidFiles(path + "/" + pathArr[i])) {
+                if(checkValidFilesForFrom(path + "/" + pathArr[i])) {
                     return true;
                 } else {
                     return false;
@@ -110,6 +118,27 @@ public class SelectDirectory extends AppCompatActivity {
         return ret;
     }
 
+    //проверка есть ли нужные Директории для метода To
+    private boolean checkValidFilesForTo(String path) {
+        boolean ret=false;
+        String[] pathArr = new File(path).list();
+        File f = new File(path);
+        if(f.isDirectory()) {
+            if (f.listFiles().length > 0) {
 
+                for (int i = 0; i <= f.listFiles().length; i++) {
+                    if (checkValidFilesForFrom(path + "/" + pathArr[i])) {
+                        ret = true;
+                        return true;
+                    } else {
+                        ret = false;
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
 
 }

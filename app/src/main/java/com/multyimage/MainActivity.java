@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     public void SettingsClick(MenuItem item) {
 
         Intent intent = new Intent(this, Settings.class);

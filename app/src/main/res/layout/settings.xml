@@ -169,10 +169,12 @@
                 android:text="@string/dest">
             </TextView>
             <Button
+                android:id="@+id/getPathDest"
                 android:onClick="getPathDest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/path"
+                android:textSize="16px"
                 android:layout_weight="1">
             </Button>
         </LinearLayout>

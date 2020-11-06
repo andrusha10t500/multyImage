@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import java.util.List;
 public class SelectDirectory extends AppCompatActivity {
 
     ListView listView;
+    TextView path;
     ArrayAdapter<String> listAdapter;
     DB dbh;
     @Override
@@ -52,8 +54,12 @@ public class SelectDirectory extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.listdir);
         String[] strPath = new File(dbh.getPathDest()).list();
         for(int i=0; i<=strPath.length-1; i++){
-            strPath[i]=dbh.getPathDest() + strPath[i];
+//            strPath[i]=dbh.getPathDest() + strPath[i];
+            strPath[i]=strPath[i];
         }
+
+        path = (TextView) findViewById(R.id.path);
+        path.setText(dbh.getPathDest());
 
         listAdapter = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1,strPath);
         listView.setAdapter(listAdapter);
@@ -61,23 +67,24 @@ public class SelectDirectory extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            //нужно чтобы переходил в нужную директорию
 
-            String[] strPath = new File(adapterView.getItemAtPosition(i).toString()).list();
+            path.setText(path.getText() + adapterView.getItemAtPosition(i).toString() + "/");
+            String[] strPath = new File(path.getText().toString()).list();
             ArrayList<String> strOut = new ArrayList<>();
+
 
             for (int j=0; j<=strPath.length-1; j++) {
                 //нужна дополнительная проверка на то, какой сейчас выбран режим to/from
                 if(dbh.getMethod().equals("from")) {
                     //если from, то нужно выбрать файл
                     //и дать ему имя, а расширение храниться в базе данных в поле format
-                    if (checkValidFilesForFrom(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j])) {
-                        strOut.add(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j]);
+                    if (checkValidFilesForFrom(path.getText().toString())) {
+                        strOut.add(strPath[j]);
                     }
                 } else {
                     //если to, то нужно выбрать папку с файлами
-                    if(checkValidFilesForTo(adapterView.getItemAtPosition(i).toString() + "/" + strPath[j])) {
-                        strOut.add(adapterView.getItemAtPosition(i).toString()+ "/" + strPath[j]);
+                    if(checkValidFilesForTo(path.getText().toString())) {
+                        strOut.add(strPath[j]);
                     }
                 }
             }
@@ -141,4 +148,26 @@ public class SelectDirectory extends AppCompatActivity {
         return ret;
     }
 
+    public void backDirectory(View view) {
+        String DOWNLOAD = path.getText().toString().substring(0,path.getText().toString().lastIndexOf("/"));
+        String myPath = DOWNLOAD.substring(0,DOWNLOAD.lastIndexOf("/")+1);
+        path.setText(myPath);
+        String[] directories = new File(myPath).list();
+        if(directories.length>0) {
+
+            view.setEnabled(true);
+            ArrayList<String> strOut = new ArrayList<>();
+            for(int i=0; i<=directories.length-1; i++) {
+                if(checkValidFilesForTo(myPath + directories[i].toString())) {
+                    strOut.add(directories[i].toString());
+                }
+            }
+
+            listAdapter = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, strOut);
+            listView.setAdapter(listAdapter);
+        } else {
+            view.setEnabled(false);
+        }
+
+    }
 }

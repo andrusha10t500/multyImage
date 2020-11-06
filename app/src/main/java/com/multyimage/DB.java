@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
+
+import java.io.Externalizable;
 
 public class DB extends SQLiteOpenHelper {
     //Класс для работы с Базой данных SQLite
@@ -21,11 +24,10 @@ public class DB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Таблица настроек
-
         db.execSQL("CREATE TABLE SETTINGS (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "method TEXT DEFAULT 'from', " +
-                "dest TEXT DEFAULT '/storage/', " +
+                "dest TEXT DEFAULT '" +  Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/', " +
                 "format text DEFAULT 'PDF', " +
                 "quality INTEGER DEFAULT 100," +
                 "resolution TEXT DEFAULT '640x480', " +
@@ -54,7 +56,8 @@ public class DB extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO settings " +
                 "(method, dest, format, quality, resolution, compression, view_scale, view_sort, view_theme) VALUES " +
-                "('from', '/storage/', 'PDF', 100, '640x480', 'LZV', 100, '_id', 'Светлая')");
+                "('from', '" +  Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/', 'PDF', 100, '640x480', 'LZV', 100, '_id', 'Светлая')");
+
     }
 
     @Override

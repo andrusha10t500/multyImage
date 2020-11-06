@@ -39,7 +39,7 @@ public class Settings extends AppCompatActivity {
     TextView format,quality;
     Spinner spinnerformat, spinnertheme, spinnersort, spinnercompression;
     EditText txtquality, size, scale;
-    Button settingsDefault;
+    Button settingsDefault, getPathDest;
     int REQUEST_CODE_PERMISSION;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +71,7 @@ public class Settings extends AppCompatActivity {
         spinnertheme = (Spinner)findViewById(R.id.spinnertheme);
         spinnercompression = (Spinner)findViewById(R.id.spinnercompression);
         settingsDefault = (Button)findViewById(R.id.settingsDefault);
+        getPathDest = (Button)findViewById(R.id.getPathDest);
         //Заполнение полей
         spinnerformat.setSelection(dbh.getFormat().equals("TIF") ? 0 : 1);
 
@@ -87,6 +88,7 @@ public class Settings extends AppCompatActivity {
         size.setText(dbh.getSize());
         scale.setText(dbh.getScale());
         settingsDefault.setEnabled(dbh.getWritableDatabase().rawQuery("SELECT * FROM settings",null).getCount()>1);
+        getPathDest.setText(dbh.getPathDest());
     }
 
     public void acceptSettings(View view) {
@@ -132,6 +134,7 @@ public class Settings extends AppCompatActivity {
         recreate();
     }
 
+    //Получаем папку назначения
     public void getPathDest(View view) {
         int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 

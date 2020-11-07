@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -140,6 +141,10 @@ public class Settings extends AppCompatActivity {
 
         //Если есть разрешение на sd-карту, то переходим в выбор директории
         if(permissionStatus == PackageManager.PERMISSION_GRANTED) {
+
+            if(new File(dbh.getPathDest().toString()).isFile()) {
+                dbh.setPathDest(dbh.getPathDest().toString().substring(0,dbh.getPathDest().toString().lastIndexOf("/")+1));
+            }
             Intent intent = new Intent(this,SelectDirectory.class);
             startActivity(intent);
         }

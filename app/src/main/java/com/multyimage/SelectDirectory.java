@@ -2,6 +2,7 @@ package com.multyimage;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Build;
@@ -68,30 +69,46 @@ public class SelectDirectory extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            path.setText(path.getText() + adapterView.getItemAtPosition(i).toString() + "/");
-            String[] strPath = new File(path.getText().toString()).list();
-            ArrayList<String> strOut = new ArrayList<>();
+                if(new File(path.getText() + adapterView.getItemAtPosition(i).toString()).isDirectory()) {
+                    path.setText(path.getText() + adapterView.getItemAtPosition(i).toString() + "/");
+                    String[] strPath = new File(path.getText().toString()).list();
+                    ArrayList<String> strOut = new ArrayList<>();
 
 
-            for (int j=0; j<=strPath.length-1; j++) {
-                //нужна дополнительная проверка на то, какой сейчас выбран режим to/from
-                if(dbh.getMethod().equals("from")) {
-                    //если from, то нужно выбрать файл
-                    //и дать ему имя, а расширение храниться в базе данных в поле format
-                    if (checkValidFilesForFrom(path.getText().toString())) {
-                        strOut.add(strPath[j]);
+                    for (int j=0; j<=strPath.length-1; j++) {
+                        //нужна дополнительная проверка на то, какой сейчас выбран режим to/from
+                        if(dbh.getMethod().equals("from")) {
+                            //если from, то нужно выбрать файл
+                            //и дать ему имя, а расширение храниться в базе данных в поле format
+
+                            if (checkValidFilesForFrom(path.getText().toString())) {
+
+                                strOut.add(strPath[j]);
+                            }
+
+                        } else {
+                            //если to, то нужно выбрать папку с файлами
+                            if(checkValidFilesForTo(path.getText().toString())) {
+                                strOut.add(strPath[j]);
+                            }
+                        }
                     }
+
+                    listAdapter = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, strOut);
+                    listView.setAdapter(listAdapter);
+                    //нужно чтобы показывал именно те директории, в которых есть файлы для обработки.
                 } else {
-                    //если to, то нужно выбрать папку с файлами
-                    if(checkValidFilesForTo(path.getText().toString())) {
-                        strOut.add(strPath[j]);
+                    path.setText(path.getText() + adapterView.getItemAtPosition(i).toString() );
+                    if(path.getText().toString().substring(path.getText().toString().length()-3,path.getText().toString().length()).equals("tif")
+                            || path.getText().toString().substring(path.getText().toString().length()-3,path.getText().toString().length()).equals("png")
+                            || path.getText().toString().substring(path.getText().toString().length()-3,path.getText().toString().length()).equals("jpg")
+                            || path.getText().toString().substring(path.getText().toString().length()-3,path.getText().toString().length()).equals("pdf")
+                            || path.getText().toString().substring(path.getText().toString().length()-4,path.getText().toString().length()).equals("jpeg")) {
+                        //проверка если нажат файл - то записываем в базу данных и закрываем активити
+                        dbh.setPathDest(path.getText().toString());
+                        finish();
                     }
                 }
-            }
-
-            listAdapter = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, strOut);
-            listView.setAdapter(listAdapter);
-            //нужно чтобы показывал именно те директории, в которых есть файлы для обработки.
             }
         });
     }
@@ -111,7 +128,7 @@ public class SelectDirectory extends AppCompatActivity {
             if (path.length() > 3) {
                 if (path.substring(path.length() - 3, path.length()).equals("png") ||
                         path.substring(path.length() - 3, path.length()).equals("jpg") ||
-                        path.substring(path.length() - 3, path.length()).equals("jpeg") ||
+                        path.substring(path.length() - 4, path.length()).equals("jpeg") ||
                         path.substring(path.length() - 3, path.length()).equals("tif") ||
                         path.substring(path.length() - 3, path.length()).equals("pdf")) {
                     //условия to (в файл) или from (из файла)
@@ -169,5 +186,12 @@ public class SelectDirectory extends AppCompatActivity {
             view.setEnabled(false);
         }
 
+    }
+
+    public void selectDirectory(View view) {
+        //Сохраняем нужную директорию для
+        dbh.setPathDest(path.getText().toString());
+        Intent intent = getIntent();
+        finish();
     }
 }
